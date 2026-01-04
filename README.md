@@ -33,4 +33,8 @@ O **WorkHours Pro** é uma ferramenta web simplificada, mas poderosa, projetada 
 - **Offline First:** O aplicativo funciona perfeitamente sem conexão com a internet após o carregamento inicial.
 
 ---
+
+[WorkHours Pro](https://shadowruge.github.io/workHours_Pro/)
+
+---
 *Este projeto foi desenvolvido com foco em transparência e facilidade de uso para o trabalhador moderno.*
