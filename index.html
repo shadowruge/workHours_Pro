@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,6 +17,11 @@
             -webkit-appearance: none;
             margin: 0;
         }
+        .sidebar-item { transition: background 0.15s, color 0.15s; }
+        .sidebar-item.active { background: #4f46e5; color: #fff; }
+        .sidebar-item.active .sidebar-month-label { color: #fff; }
+        .sidebar-item.active .sidebar-month-sub { color: #c7d2fe; }
+        .sidebar-item:not(.active):hover { background: #f1f5f9; }
     </style>
 </head>
 <body class="min-h-screen pb-12">
@@ -46,11 +50,23 @@
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <!-- Coluna Esquerda: Perfil e Form -->
-        <div class="lg:col-span-5 space-y-6">
-            
+    <main class="max-w-6xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Sidebar: Meses -->
+        <aside class="lg:col-span-2">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden sticky top-20">
+                <div class="px-4 pt-4 pb-2 border-b border-slate-100">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Meses</p>
+                </div>
+                <nav id="month-sidebar" class="py-2 space-y-0.5 px-2 max-h-[70vh] overflow-y-auto">
+                    <!-- Injetado via JS -->
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Coluna Centro: Perfil e Form -->
+        <div class="lg:col-span-4 space-y-6">
+
             <!-- Card Perfil -->
             <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <div class="flex items-center gap-2 mb-4">
@@ -66,11 +82,11 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label for="profile-id" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Matrícula</label>
+                            <label for="profile-id" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">MatrÃ­cula</label>
                             <input type="text" id="profile-id" placeholder="Ex: 12345" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
                         </div>
                         <div>
-                            <label for="profile-role" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Função</label>
+                            <label for="profile-role" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">FunÃ§Ã£o</label>
                             <input type="text" id="profile-role" placeholder="Ex: Analista" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
                         </div>
                     </div>
@@ -80,16 +96,16 @@
             <!-- Cards de Resumo -->
             <div class="grid grid-cols-2 gap-4">
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Trabalhado</p>
+                    <p for-stat="worked-label" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Trabalhado no mês</p>
                     <p id="total-worked" class="text-xl font-bold text-slate-800">0h 00min</p>
                 </div>
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Horas Extras</p>
+                    <p for-stat="overtime-label" class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Extras no mês</p>
                     <p id="total-overtime" class="text-xl font-bold text-indigo-600">0h 00min</p>
                 </div>
             </div>
 
-            <!-- Formulário de Registro -->
+            <!-- FormulÃ¡rio de Registro -->
             <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <div class="flex items-center gap-2 mb-6">
                     <h2 id="form-title" class="text-lg font-bold text-slate-800">Novo Registro</h2>
@@ -97,7 +113,7 @@
 
                 <form id="work-form" class="space-y-4">
                     <input type="hidden" id="edit-id">
-                    
+
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
                             <label for="date" class="block text-sm font-semibold text-slate-700 mb-1">Data</label>
@@ -108,7 +124,7 @@
                             <input type="time" id="entry" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                         </div>
                         <div>
-                            <label for="exit" class="block text-sm font-semibold text-slate-700 mb-1">Saída</label>
+                            <label for="exit" class="block text-sm font-semibold text-slate-700 mb-1">SaÃ­da</label>
                             <input type="time" id="exit" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                         </div>
                     </div>
@@ -137,9 +153,9 @@
         </div>
 
         <!-- Coluna Direita: Lista -->
-        <div class="lg:col-span-7 space-y-6">
+        <div class="lg:col-span-6 space-y-6">
             <div class="flex items-center justify-between mb-2">
-                <h2 class="text-lg font-bold text-slate-800">Histórico de Atividades</h2>
+                <h2 class="text-lg font-bold text-slate-800">Historico de Atividades</h2>
                 <span id="record-count" class="text-xs text-slate-400 font-medium">0 registros</span>
             </div>
 
